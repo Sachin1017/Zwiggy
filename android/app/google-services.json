@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "104994031172",
+    "project_id": "zwiggy-f5a63",
+    "storage_bucket": "zwiggy-f5a63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104994031172:android:09881336cdd38f0af99e11",
+        "android_client_info": {
+          "package_name": "com.zwiggy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104994031172-g570hbjmeblkptp6thmbb5jpisi0l8vs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zwiggy",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "104994031172-oa21b1dies07ja70iosnbhn9i0gg1qqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAihzOpYexrf34hW-e2DlRHKud_lnVzI1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104994031172-oa21b1dies07ja70iosnbhn9i0gg1qqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
