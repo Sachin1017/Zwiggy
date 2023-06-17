@@ -20,7 +20,6 @@ import ImageSlider from '../Components/imageSlider';
 import Address from '../Components/address';
 import RestaurantsList from '../Components/restaurantsList';
 import DoubleTapToClose from '../Components/doubleTapToClose';
-import {BackHandler} from 'react-native/Libraries/Utilities/BackHandler';
 
 const Food = ({navigation}) => {
   const [img, setImg] = useState([]);
@@ -48,7 +47,16 @@ const Food = ({navigation}) => {
       dispatch(setImageSlider(img));
       // console.log(res.data.cards[2].data.data.cards);
       dispatch(setRestaurants(res.data.cards[2].data.data.cards));
-      console.log(resto[0].data.cuisines);
+      // console.log(resto[0].data.cuisines);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const local = async () => {
+    try {
+      const l = await axios.get('http://192.168.1.14:8081/name');
+      console.log('data: ', l.data);
     } catch (error) {
       console.log(error);
     }
@@ -64,6 +72,7 @@ const Food = ({navigation}) => {
   useEffect(() => {
     getData();
     showMsg();
+    local();
   }, []);
 
   const refresh = useCallback(() => {
@@ -75,58 +84,62 @@ const Food = ({navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Address navigation={navigation} />
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchBox}
-          placeholder="Search for foods, restaurants & more ..."
-          placeholderTextColor="#000"
-        />
-        <Image
-          style={styles.searchIcon}
-          source={require('../assets/icons/search.png')}
-        />
-      </View>
+    <>
+      <SafeAreaView style={styles.container}>
+        <Address navigation={navigation} />
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchBox}
+            placeholder="Search for foods, restaurants & more ..."
+            placeholderTextColor="#000"
+          />
+          <Image
+            style={styles.searchIcon}
+            source={require('../assets/icons/search.png')}
+          />
+        </View>
 
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-        }>
-        {!refreshing ? (
-          <View>
-            <View>{img !== undefined ? <ImageSlider img={img} /> : null}</View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+          }>
+          {!refreshing ? (
             <View>
-              {resto
-                ? resto.map(item => <RestaurantsList item={item} />)
-                : null}
+              <View>
+                {img !== undefined ? <ImageSlider img={img} /> : null}
+              </View>
+              <View>
+                {resto
+                  ? resto.map(item => <RestaurantsList item={item} />)
+                  : null}
+              </View>
             </View>
+          ) : null}
+        </ScrollView>
+        {msg ? (
+          <View
+            style={{
+              position: 'absolute',
+              top: 300,
+              backgroundColor: '#ebfaeb',
+              width: '90%',
+              alignSelf: 'center',
+              borderRadius: 20,
+            }}>
+            <Text
+              style={{
+                color: '#000',
+                textAlign: 'center',
+                fontSize: 20,
+                fontWeight: '500',
+              }}>
+              Welcome back Sachin.. 🖐
+            </Text>
           </View>
         ) : null}
-      </ScrollView>
-      {msg ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 300,
-            backgroundColor: '#ebfaeb',
-            width: '90%',
-            alignSelf: 'center',
-            borderRadius: 20,
-          }}>
-          <Text
-            style={{
-              color: '#000',
-              textAlign: 'center',
-              fontSize: 20,
-              fontWeight: '500',
-            }}>
-            Welcome back Sachin.. 🖐
-          </Text>
-        </View>
-      ) : null}
+      </SafeAreaView>
       <DoubleTapToClose />
-    </SafeAreaView>
+    </>
   );
 };
 

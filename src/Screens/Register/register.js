@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-alert */
 import React from 'react';
 import {
   SafeAreaView,
@@ -15,6 +17,7 @@ import {RegisterFields} from './registerFields';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomInput from '../../Components/customInput';
+import axios from 'axios';
 
 const Register = ({navigation}) => {
   const initialValues = {
@@ -28,11 +31,12 @@ const Register = ({navigation}) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Email is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    mobile: Yup.number().required('Mobile number is required'),
-    // .matches(
-    //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-    //   'Invalid mobile number',
-    // ),
+    mobile: Yup.string()
+      .required('Mobile number is required')
+      .matches(
+        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+        'Invalid mobile number',
+      ),
     password: Yup.string()
       .required('Password is required')
       .matches(
@@ -46,12 +50,9 @@ const Register = ({navigation}) => {
 
   const handleFormSubmit = values => {
     if (values !== null) {
+      axios.post('http://192.168.1.14:8081/user', values);
       auth()
-        .createUserWithEmailAndPassword(
-          values.email,
-          values.password,
-          values.name,
-        )
+        .createUserWithEmailAndPassword(values.email, values.password)
         .then(res => {
           console.log(res);
           console.log('User account created & signed in!');
