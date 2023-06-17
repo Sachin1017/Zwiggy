@@ -1,10 +1,11 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import Login from '../Screens/Login/login';
-import Home from '../Screens/menu';
+import Home from '../Screens/food';
 import Register from '../Screens/Register/register';
 import SplashScreen from '../Screens/splashScreen';
 import BottomNavigator from './bottomNavigation';
+import Profile from '../Screens/profile';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="BottomNavigator"
         component={BottomNavigator}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
         options={{header: () => null}}
       />
     </Stack.Navigator>

@@ -1,7 +1,8 @@
-import {View, TextInput, StyleSheet} from 'react-native';
+import {View, StyleSheet, TextInput} from 'react-native';
 import React from 'react';
+import {Field} from 'formik';
 
-const Input = ({handleChange, value, placeholder, type}) => {
+const CustomInput = ({handleChange, value, placeholder, type, onTouch}) => {
   return (
     <View>
       <TextInput
@@ -11,6 +12,7 @@ const Input = ({handleChange, value, placeholder, type}) => {
         value={value}
         keyboardType={type}
         placeholderTextColor="#949494"
+        onTouchStart={onTouch}
       />
     </View>
   );
@@ -29,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default CustomInput;

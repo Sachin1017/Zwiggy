@@ -3,9 +3,11 @@
 import React, {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Menu from '../Screens/menu';
+import Menu from '../Screens/food';
 import Profile from '../Screens/profile';
 import {Image} from 'react-native';
+import Orders from '../Screens/orders';
+import Food from '../Screens/food';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,11 +38,11 @@ const BottomNavigator = () => {
         tabBarActiveTintColor: '#fc5805',
         tabBarIcon: ({focused}) => {
           let icon;
-          if (route.name === 'Menu') {
+          if (route.name === 'Food') {
             icon = require('../assets/BotNavigationIcon/dinner.png');
           }
-          if (route.name === 'Profile') {
-            icon = require('../assets/BotNavigationIcon/account.png');
+          if (route.name === 'Orders') {
+            icon = require('../assets/BotNavigationIcon/shopping-bag.png');
           }
           return (
             <Image
@@ -54,15 +56,12 @@ const BottomNavigator = () => {
           );
         },
       })}>
-      <Tab.Screen name="Menu" component={Menu} options={{header: () => null}} />
+      <Tab.Screen name="Food" component={Food} options={{header: () => null}} />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="Orders"
+        component={Orders}
         options={{
           header: () => null,
-          //   tabBarLabel: () => {
-          //     color: '';
-          //   },
         }}
       />
     </Tab.Navigator>

@@ -9,22 +9,30 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import {Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import * as Yup from 'yup';
-import Input from '../../Components/customInput';
 import {RegisterFields} from './registerFields';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomInput from '../../Components/customInput';
 
 const Register = ({navigation}) => {
   const initialValues = {
+    name: '',
     email: '',
+    mobile: '',
     password: '',
+    confirmPassword: '',
   };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Email is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
+    mobile: Yup.number().required('Mobile number is required'),
+    // .matches(
+    //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+    //   'Invalid mobile number',
+    // ),
     password: Yup.string()
       .required('Password is required')
       .matches(
@@ -76,17 +84,18 @@ const Register = ({navigation}) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleFormSubmit}>
-        {({handleChange, handleSubmit, values, errors}) => (
+        {({handleChange, handleSubmit, values, errors, isValid, dirty}) => (
           <View style={styles.formContainer}>
             <FlatList
               data={RegisterFields}
               renderItem={({item}) => (
                 <View>
-                  <Input
+                  <Field
+                    component={CustomInput}
+                    placeholder={item.placeholder}
                     value={values[item.id]}
                     handleChange={handleChange(item.id)}
                     name={item.name}
-                    placeholder={item.placeholder}
                     type={item.type}
                   />
                   {errors[item.id] && (
@@ -108,10 +117,13 @@ const Register = ({navigation}) => {
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                style={styles.subBtn}
+                style={
+                  isValid && dirty ? styles.subBtnActive : styles.subBtnDisabled
+                }
                 onPress={() => {
                   handleSubmit();
-                }}>
+                }}
+                disabled={!isValid}>
                 <Text style={styles.subText}>Register</Text>
               </TouchableOpacity>
             </View>
@@ -142,8 +154,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
   },
-  subBtn: {
+  subBtnActive: {
     backgroundColor: '#fc5805',
+    width: 200,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  subBtnDisabled: {
+    backgroundColor: '#8c8b8b',
     width: 200,
     height: 50,
     alignItems: 'center',
@@ -165,7 +186,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: 20,
   },
   btnContainer: {
     alignItems: 'center',

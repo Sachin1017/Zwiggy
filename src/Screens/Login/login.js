@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import * as Yup from 'yup';
 import {LoginFields} from './loginFields';
-import Input from '../../Components/customInput';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomInput from '../../Components/customInput';
 
 const Login = ({navigation}) => {
   const initialValues = {
@@ -72,18 +72,19 @@ const Login = ({navigation}) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleFormSubmit}>
-        {({handleChange, handleSubmit, values, errors}) => (
+        {({handleChange, handleSubmit, values, errors, isValid, dirty}) => (
           <View style={styles.formContainer}>
             <View>
               <FlatList
                 data={LoginFields}
                 renderItem={({item}) => (
                   <View>
-                    <Input
+                    <Field
+                      component={CustomInput}
+                      placeholder={item.placeholder}
                       value={values[item.id]}
                       handleChange={handleChange(item.id)}
                       name={item.name}
-                      placeholder={item.placeholder}
                       type={item.type}
                     />
                     {errors[item.id] && (
@@ -110,10 +111,13 @@ const Login = ({navigation}) => {
               </View>
 
               <TouchableOpacity
-                style={styles.subBtn}
+                style={
+                  isValid && dirty ? styles.subBtnActive : styles.subBtnDisabled
+                }
                 onPress={() => {
                   handleSubmit();
-                }}>
+                }}
+                disabled={!isValid}>
                 <Text style={styles.subText}>Login</Text>
               </TouchableOpacity>
             </View>
@@ -144,8 +148,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
   },
-  subBtn: {
+  subBtnActive: {
     backgroundColor: '#fc5805',
+    width: 200,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+  subBtnDisabled: {
+    backgroundColor: '#8c8b8b',
     width: 200,
     height: 50,
     alignItems: 'center',

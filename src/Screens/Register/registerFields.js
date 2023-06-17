@@ -12,6 +12,12 @@ export const RegisterFields = [
     type: 'email-address',
   },
   {
+    name: 'Mobile',
+    id: 'mobile',
+    placeholder: 'Mobile',
+    type: 'Mobile',
+  },
+  {
     name: 'Password',
     id: 'password',
     placeholder: 'Password',

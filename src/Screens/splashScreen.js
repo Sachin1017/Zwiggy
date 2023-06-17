@@ -1,11 +1,24 @@
 import {Text, SafeAreaView, Image, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = ({navigation}) => {
+  const checkUser = async () => {
+    try {
+      const user = await AsyncStorage.getItem('uid');
+      if (user === null) {
+        navigation.navigate('Login');
+      } else {
+        navigation.navigate('BottomNavigator');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Login');
+      checkUser();
     }, 2000);
   }, []);
 
