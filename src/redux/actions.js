@@ -16,3 +16,9 @@ export const setRestaurants = item => {
     payload: item,
   };
 };
+export const setMenuList = item => {
+  return {
+    type: 'GET_MENULIST',
+    payload: item,
+  };
+};

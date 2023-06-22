@@ -20,6 +20,7 @@ import ImageSlider from '../Components/imageSlider';
 import Address from '../Components/address';
 import RestaurantsList from '../Components/restaurantsList';
 import DoubleTapToClose from '../Components/doubleTapToClose';
+// import {NetworkInfo} from 'react-native-network-info';
 
 const Food = ({navigation}) => {
   const [img, setImg] = useState([]);
@@ -36,31 +37,32 @@ const Food = ({navigation}) => {
   const getData = async () => {
     try {
       const res = await axios.get(
-        'https://sachin1017.github.io/FoodData/db.json',
+        'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9667581&lng=77.614948&page_type=DESKTOP_WEB_LISTING',
       );
-      const i = await res.data.cards[0].data.data.cards.map(x => {
+      const i = await res.data.data.cards[0].data.data.cards.map(x => {
         return `https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${x.data.creativeId}`;
       });
-      // console.log(i);
       setImg(i);
       // dispatch(setData(res.data));
       dispatch(setImageSlider(img));
       // console.log(res.data.cards[2].data.data.cards);
-      dispatch(setRestaurants(res.data.cards[2].data.data.cards));
+      dispatch(setRestaurants(res.data.data.cards[2].data.data.cards));
       // console.log(resto[0].data.cuisines);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const local = async () => {
-    try {
-      const l = await axios.get('http://192.168.1.14:8081/name');
-      console.log('data: ', l.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const local = async () => {
+  //   try {
+  //     // const l = await axios.get('http://localhost:3000/user');
+  //     // console.log('data: ', l.data);
+  //     const res = await fetch('https://geolocation-db.com/json/');
+  //     console.log(res.status);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const showMsg = () => {
     setMsg(true);
@@ -72,7 +74,7 @@ const Food = ({navigation}) => {
   useEffect(() => {
     getData();
     showMsg();
-    local();
+    // local();
   }, []);
 
   const refresh = useCallback(() => {
@@ -110,7 +112,15 @@ const Food = ({navigation}) => {
               </View>
               <View>
                 {resto
-                  ? resto.map(item => <RestaurantsList item={item} />)
+                  ? resto.map(item => (
+                      <RestaurantsList
+                        key={item.data.id}
+                        item={item}
+                        nav={() => {
+                          navigation.navigate('Menu', {restoId: item.data});
+                        }}
+                      />
+                    ))
                   : null}
               </View>
             </View>

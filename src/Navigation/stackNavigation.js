@@ -6,6 +6,7 @@ import Register from '../Screens/Register/register';
 import SplashScreen from '../Screens/splashScreen';
 import BottomNavigator from './bottomNavigation';
 import Profile from '../Screens/profile';
+import Menu from '../Screens/menu';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Profile"
         component={Profile}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="Menu"
+        component={Menu}
         options={{header: () => null}}
       />
     </Stack.Navigator>

@@ -2,6 +2,7 @@ const initialValues = {
   imageSlider: [],
   Data: [],
   restaurants: [],
+  menuList: [],
 };
 
 const Reducers = (state = initialValues, action) => {
@@ -20,6 +21,11 @@ const Reducers = (state = initialValues, action) => {
       return {
         ...action.state,
         restaurants: action.payload,
+      };
+    case 'GET_MENULIST':
+      return {
+        ...action.state,
+        menuList: action.payload,
       };
     default:
       return state;

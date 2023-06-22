@@ -3,9 +3,9 @@ import {View, Text, Pressable, Image, StyleSheet} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
-const RestaurantsList = ({item}) => {
+const RestaurantsList = ({item, nav, key}) => {
   return (
-    <Pressable style={styles.restoContainer} key={item.data.id}>
+    <Pressable style={styles.restoContainer} key={key} onPress={nav}>
       <View>
         <Image
           style={styles.restoImage}
@@ -37,20 +37,12 @@ const RestaurantsList = ({item}) => {
             · {item.data.deliveryTime} mins
           </Text>
         </View>
-        <View
+        <Text
           ellipsizeMode="tail"
           numberOfLines={1}
-          style={{
-            display: 'flex',
-            width: '95%',
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
-            flexShrink: 1,
-          }}>
-          {item.data.cuisines.map(i => (
-            <Text style={{color: '#000', fontSize: 16}}>{i},</Text>
-          ))}
-        </View>
+          style={{color: '#000', fontSize: 16}}>
+          {item.data.cuisines.join(', ')},
+        </Text>
         <Text style={{fontSize: 16, color: '#000'}}>
           {item.data.area} · {item.data.lastMileTravelString}
         </Text>

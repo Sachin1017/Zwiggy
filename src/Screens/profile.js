@@ -55,7 +55,7 @@ const Profile = ({navigation}) => {
       <View style={styles.detailsContainer}>
         <View style={styles.nameContainer}>
           <View>
-            <Text style={styles.name}>Profile_Name</Text>
+            <Text style={styles.name}>Sachin</Text>
             <Text style={{color: '#000'}}>123457890</Text>
           </View>
           <TouchableOpacity>
